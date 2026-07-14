@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MuuP - Finance Tracker 🌸</title>
+    
+    <!-- Google Fonts: Quicksand -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration (Soft UI & Pastel Palette) -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Quicksand', 'sans-serif'],
+                    },
+                    colors: {
+                        kawaii: {
+                            bg: '#fdfbfb',      // Off-white sangat lembut
+                            card: '#ffffff',    // Putih bersih untuk efek mengambang
+                            income: '#a7f3d0',  // Emerald 200 (Hijau mint)
+                            expense: '#fecdd3', // Rose 200 (Merah muda pucat)
+                            text: '#475569',    // Slate 600 untuk teks agar tidak terlalu kontras
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Micro-interactions */
+        .btn-hover { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+        .btn-hover:hover { transform: translateY(-2px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+    </style>
+</head>
+<body class="bg-kawaii-bg text-kawaii-text font-sans antialiased min-h-screen p-6">
+
+    <div class="max-w-5xl mx-auto">
+        <!-- Header / Saldo Card -->
+        <header class="bg-kawaii-card rounded-3xl shadow-sm p-8 mb-8 text-center border border-slate-100">
+            <h1 class="text-3xl font-bold mb-2 tracking-wide text-slate-700">MuuP 🌸</h1>
+            <p class="text-slate-400 mb-6 font-medium">My Catatan Kuangan Imuup</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-kawaii-bg p-4 rounded-2xl">
+                    <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-1">Pemasukan</h3>
+                    <p id="total-income" class="text-2xl font-bold text-emerald-500">Rp 0</p>
+                </div>
+                <div class="bg-kawaii-bg p-4 rounded-2xl ring-2 ring-slate-50">
+                    <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-1">Total Saldo</h3>
+                    <p id="total-balance" class="text-3xl font-bold text-slate-700">Rp 0</p>
+                </div>
+                <div class="bg-kawaii-bg p-4 rounded-2xl">
+                    <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-1">Pengeluaran</h3>
+                    <p id="total-expense" class="text-2xl font-bold text-rose-500">Rp 0</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <!-- Kiri: Area Input -->
+            <section class="bg-kawaii-card rounded-3xl shadow-sm p-8 border border-slate-100 h-fit">
+                <h2 class="text-xl font-bold mb-6 text-slate-600 border-b pb-2 border-slate-100">Catat Transaksi Baru ✨</h2>
+                
+                <form id="transaction-form" class="space-y-5">
+                    <div>
+                        <label for="text" class="block text-sm font-semibold text-slate-500 mb-2">Nama Transaksi</label>
+                        <input type="text" id="text" placeholder="Cth: Beli perlengkapan..." required
+                            class="w-full px-4 py-3 rounded-2xl bg-slate-50 border-none focus:ring-2 focus:ring-rose-200 outline-none transition-all">
+                    </div>
+
+                    <div>
+                        <label for="amount" class="block text-sm font-semibold text-slate-500 mb-2">Nominal (Rp)</label>
+                        <input type="number" id="amount" placeholder="Cth: 50000" required
+                            class="w-full px-4 py-3 rounded-2xl bg-slate-50 border-none focus:ring-2 focus:ring-rose-200 outline-none transition-all">
+                    </div>
+
+                    <div>
+                        <label for="type" class="block text-sm font-semibold text-slate-500 mb-2">Tipe</label>
+                        <select id="type" class="w-full px-4 py-3 rounded-2xl bg-slate-50 border-none focus:ring-2 focus:ring-rose-200 outline-none transition-all cursor-pointer">
+                            <option value="expense">Pengeluaran 📉</option>
+                            <option value="income">Pemasukan 📈</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" 
+                        class="w-full bg-slate-800 text-white font-bold py-3 px-4 rounded-2xl mt-4 btn-hover">
+                        Simpan Catatan
+                    </button>
+                </form>
+
+                <!-- Ruang kosong strategis untuk ilustrasi digital kustom -->
+                <div class="mt-8 text-center opacity-50 select-none">
+                    <p class="text-xs text-slate-300 italic">[Area kosong untuk ilustrasi karakter/maskot]</p>
+                </div>
+            </section>
+
+            <!-- Kanan: Area Riwayat -->
+            <section class="bg-kawaii-card rounded-3xl shadow-sm p-8 border border-slate-100">
+                <h2 class="text-xl font-bold mb-6 text-slate-600 border-b pb-2 border-slate-100">Riwayat Terakhir 📜</h2>
+                
+                <ul id="history-list" class="space-y-3">
+                    <!-- Item riwayat akan di-inject oleh JavaScript di sini -->
+                </ul>
+            </section>
+
+        </div>
+    </div>
+
+    <!-- Menghubungkan logika JavaScript -->
+    <script src="js/app.js"></script>
+</body>
+</html>
